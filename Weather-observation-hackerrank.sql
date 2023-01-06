@@ -17,8 +17,6 @@ FROM station;
 
 
 
-
-
 /*
 
 # 2
@@ -71,6 +69,8 @@ FROM station;
 
 
 
+
+
 /*
 Enter your query here.
 
@@ -106,3 +106,177 @@ Query the list of CITY names starting with vowels (i.e., a, e, i, o, or u) from 
 SELECT DISTINCT city
 FROM station
 WHERE city LIKE 'a%' OR city LIKE 'e%' OR city LIKE 'i%' OR city LIKE 'o%' OR city LIKE 'u%';
+
+
+
+/*
+Enter your query here.
+
+
+# 7
+
+Query the list of CITY names ending with vowels (a, e, i, o, u) from STATION. Your result cannot contain duplicates.
+
+*/
+
+SELECT DISTINCT city
+FROM station
+WHERE city LIKE '%a' OR city LIKE '%e' OR city LIKE '%i' OR city LIKE '%o' OR city LIKE '%u';
+
+
+
+
+/*
+Enter your query here.
+
+#8
+
+Query the list of CITY names from STATION which have vowels (i.e., a, e, i, o, and u) as both their first and last characters. Your result cannot contain duplicates.
+
+
+Kinda brute force long way to solution: 
+
+SELECT DISTINCT city from STATION where (CITY LIKE 'a%' 
+    OR CITY LIKE 'e%' 
+    OR CITY LIKE 'i%' 
+    OR CITY LIKE 'o%'
+    OR CITY LIKE 'u%'
+)
+AND (CITY LIKE '%a' 
+    OR CITY LIKE '%e' 
+    OR CITY LIKE '%i' 
+    OR CITY LIKE '%o'
+    OR CITY LIKE '%u'
+   );
+
+
+And 2 random notes: 
+
+dot (.) represents one single character. It means that two dots (..) take two characters. Three dots (...) take three characters.
+
+.* represents any string no matter the number of characters.
+
+*/
+
+SELECT DISTINCT city
+FROM station
+WHERE left(city,1) in ('a','e','i','o','u')
+      AND right(city, 1) in ('a','e','i','o','u');
+      
+      
+/*
+Enter your query here.
+
+#9
+
+Query the list of CITY names from STATION that do not start with vowels. Your result cannot contain duplicates.
+
+*/
+
+
+SELECT DISTINCT city 
+FROM STATION
+WHERE NOT (CITY LIKE 'a%' 
+    OR CITY LIKE 'e%' 
+    OR CITY LIKE 'i%' 
+    OR CITY LIKE 'o%'
+    OR CITY LIKE 'u%'
+   );
+
+
+
+
+
+/*
+Enter your query here.
+
+#10
+
+Query the list of CITY names from STATION that do not end with vowels. Your result cannot contain duplicates.
+
+*/
+
+
+SELECT DISTINCT city 
+FROM STATION
+WHERE NOT (CITY LIKE '%a' 
+    OR CITY LIKE '%e' 
+    OR CITY LIKE '%i' 
+    OR CITY LIKE '%o'
+    OR CITY LIKE '%u'
+   );
+
+
+
+/*
+Enter your query here.
+
+# 11
+
+Query the list of CITY names from STATION that either do not start with vowels or do not end with vowels. Your result cannot contain duplicates.
+
+*/
+
+SELECT DISTINCT city
+FROM station
+WHERE left(city, 1) NOT IN ('a','e','i','o','u')
+      OR right(city, 1) NOT IN ('a','e','i','o','u');
+      
+      
+/*
+Enter your query here.
+
+# 12
+
+Query the list of CITY names from STATION that do not start with vowels and do not end with vowels. Your result cannot contain duplicates.
+
+*/
+
+select distinct city from station where (left(city,1) not in ('a','e','i','o','u') and  right(city,1) not in ('a','e','i','o','u'));
+
+
+
+/*
+Enter your query here.
+
+# 13
+
+Query the sum of Northern Latitudes (LAT_N) from STATION having values greater than 38.7880 and less than 137.2345. Truncate your answer to  decimal places.
+
+
+First solution:
+
+SELECT ROUND(SUM(LAT_N),4)
+FROM Station
+WHERE LAT_N BETWEEN 38.7880 AND 137.2345;
+
+*/
+
+
+SELECT TRUNCATE(SUM(LAT_N), 4)
+FROM station
+WHERE lat_n > 38.7880 AND lat_n < 137.2345;
+
+
+
+/*
+Bonus question: Revising the Select Query I
+
+Query all columns for all American cities in the CITY table with populations larger than 100000. The CountryCode for America is USA.
+
+*/
+SELECT *
+FROM city
+WHERE population > 100000 AND countrycode = 'usa';
+
+
+
+/*
+Bonus question: Revising the Select Query II
+
+Query the NAME field for all American cities in the CITY table with populations larger than 120000. The CountryCode for America is USA.
+*/
+
+SELECT name
+FROM city
+WHERE population > 120000 and countrycode = 'usa';
